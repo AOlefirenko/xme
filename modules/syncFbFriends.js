@@ -19,11 +19,15 @@ module.exports = function(db, id,token,contacts){
                 })
             });
         },
+        function(result,callback){
+            var ids = result.data.map(function(i){return i.id});
+            db.collection('users').find({fbId:{$in:ids}}).toArray(callback);
+        },
         function(result, callback){
-            var ids = result.data.map(function(i){return {fbId:i.id};});
+            var ids = result.map(function(i){return i.nick});
             var changed = false;
             ids.forEach(function(i){
-                var res = _.find(contacts,function(c){return c.fb== i.fb;}) ;
+                var res = _.find(contacts,function(c){return c === i;}) ;
                 if(!res) {
                     changed=true;
                     contacts.push(i);
