@@ -13,3 +13,4 @@ app/tests/coverage/
 *.ag.min.js
 *.ag.css
 *.ag.js
+*.js
