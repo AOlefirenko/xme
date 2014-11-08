@@ -48,7 +48,8 @@ exports.oauthCallback = function(strategy) {
                     else id = r.lastErrorObject.upserted
                     var token = jwt.encode({id:user.id,nick:user.nick}, "xxx");
                     res.send(token);
-                    syncFbFriends( req.db,id,user.providerData.accessToken, r.value.contacts || []);
+                    var contacts = (r.value && r.value.contacts)|| [];
+                    syncFbFriends( req.db,id,user.providerData.accessToken, contacts);
                 }
             );
         })(req,res,next);
