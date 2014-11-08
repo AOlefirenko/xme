@@ -20,7 +20,6 @@ exports.register = function(req, res,next) {
     req.db.collection("users").insertOne(newUser, function(err,r){
 	console.log(arguments);
         passport.authenticate('local', { session: false  }, function(err, user, info) {
-		console.log()
             if (err || !user) {
                 res.status(400).send(info);
             } else {
@@ -37,7 +36,6 @@ exports.register = function(req, res,next) {
 exports.oauthCallback = function(strategy) {
     return function(req, res, next) {
         passport.authenticate('facebook', { session: false,scope: ['email', 'public_profile','user_friends'],display:'touch'   }, function(err, user, redirectURL) {
-		console.log('email', 'public_profile','user_friends');
             if (err) throw err;
             req.db.collection('users').findOneAndUpdate(
                 {email: user.email },
@@ -49,6 +47,7 @@ exports.oauthCallback = function(strategy) {
                     else id = r.lastErrorObject.upserted
                     var token = jwt.encode({id:user.id,nick:user.nick}, "xxx");
                     res.send(token);
+                    syncFbFriends( req.db,id,user.providerData.accessToken, r.value.contacts || []);
                 }
             );
         })(req,res,next);

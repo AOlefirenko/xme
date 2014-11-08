@@ -1,7 +1,8 @@
 var ObjectId = require("mongodb").ObjectID,
     https = require('https'),
+    async = require('async'),
     errors = require('http-custom-errors');
-var async = require('async');
+
 
 exports.get = function(req, res) {
     async.waterfall([
@@ -28,7 +29,7 @@ exports.get = function(req, res) {
         res.send(result.data)
     })
 }
-///"https://graph.facebook.com/v2.2/me/permissions?access_token=CAAEevIen5okBAIzgYNZCStbptBDWnXOngaZATS97R0baXpknJsx2Bp9U5WV1HsRG6gwO8hLlwuGHzTDpkpxGqmmUVq4ZBfZArULZCdXHv4Dujv902fNyGhdDYHwoZB2qzgzFsN1ZAZBH2kZBIEM2RKMEmjE6nZAND6ZC2wJkggvQ0qCZCY1U5oAS7e3u
+
 exports.addContact = function(req,res,next){
     var id = new ObjectId(req.user.id);
     req.db.collection('users').update({_id:id},{$push:{contacts:req.params.username}},function(err,res){
