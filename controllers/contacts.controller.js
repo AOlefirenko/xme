@@ -4,8 +4,17 @@ var ObjectId = require("mongodb").ObjectID,
     errors = require('http-custom-errors');
 
 
-exports.get = function(req, res) {
-
+exports.get = function(req, res,next) {
+    var id = new ObjectId(req.user.id);
+    req.db.collection('users').findOne({_id:id},function(err, doc){
+        if(err) return next(errors.InternalServerError(err.message));
+        req.db.collection('users').find({nick:{$in:doc.contacts}}).toArray(function(docs){
+            var contacts = docs.map(function(d){
+                return {id:d.id, pic: d.pic, nick: d.nick, firstName: d.firstName, lastName: d.lastName};
+            });
+            res.send(contacts);
+        })
+    });
 }
 
 exports.addContact = function(req,res,next){
