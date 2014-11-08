@@ -24,7 +24,7 @@ module.exports =function(app,db){
 				lastName: profile.name.familyName,
 				email: profile.emails[0].value,
 				nick: profile.username || profile.displayName,
-                pic:'https://graph.facebook.com/{0}/picture?width=110&height=110'.replace('{0}',providerData.id),
+                pic:'https://graph.facebook.com/{0}/picture?width=200&height=200'.replace('{0}',providerData.id),
 				fbId:providerData.id,
 				provider: 'facebook',
 				providerIdentifierField: 'id',
