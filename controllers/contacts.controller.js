@@ -5,13 +5,17 @@ var ObjectId = require("mongodb").ObjectID,
 
 
 exports.get = function(req, res,next) {
+    console.log('get contacts');
     var id = new ObjectId(req.user.id);
+    console.log(id);
     req.db.collection('users').findOne({_id:id},function(err, doc){
         if(err) return next(errors.InternalServerError(err.message));
+        console.log('i am',doc);
         req.db.collection('users').find({nick:{$in:doc.contacts}}).toArray(function(docs){
             var contacts = docs.map(function(d){
                 return {id:d.id, pic: d.pic, nick: d.nick, firstName: d.firstName, lastName: d.lastName};
             });
+            console.log('contacts',contacts);
             res.send(contacts);
         })
     });
