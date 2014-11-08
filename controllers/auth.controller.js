@@ -1,5 +1,6 @@
 var passport = require('passport'),
-    jwt = require('jwt-simple');
+    jwt = require('jwt-simple'),
+    syncFbFriends = require('./../modules/syncFbFriends');
 
 exports.login = function(req, res,next) {
     passport.authenticate('local', { session: false  }, function(err, user, info) {
