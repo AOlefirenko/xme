@@ -40,7 +40,7 @@ module.exports =function(app,db){
 		},
 		function(username, password, done) {
 			db.collection('users').findOne({nick:username},function(err, doc){
-				done(null,{id:doc._id})
+				done(null,{id:doc._id,nick:doc.nick})
 			})
 		}
 	));
