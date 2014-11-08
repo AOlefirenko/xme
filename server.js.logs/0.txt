@@ -1,0 +1,41 @@
+mongodb: The connection is established.
+[Function]
+init realtime
+email public_profile user_friends
+null
+null
+null
+register { nick: 'aaa', password: '111', email: '123' }
+{ '0': null,
+  '1': 
+   { result: [Getter],
+     connection: [Getter],
+     toJSON: [Function],
+     toString: [Function],
+     ops: [ [Object] ],
+     insertedCount: 1,
+     insertedId: 545e00eb0db4f6640ed65e86 } }
+
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null
+null

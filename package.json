@@ -1,0 +1,16 @@
+{
+  "name": "xme",
+  "version": "0.1.0",
+  "dependencies": {
+    "async": "^0.9.0",
+    "body-parser": "^1.9.2",
+    "express": "^4.10.1",
+    "http-custom-errors": "^8.0.0",
+    "jwt-simple": "^0.2.0",
+    "mongodb": "^2.0.5",
+    "passport": "^0.2.1",
+    "passport-facebook": "^1.0.3",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0"
+  }
+}
