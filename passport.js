@@ -41,6 +41,10 @@ module.exports =function(app,db){
 		},
 		function(username, password, done) {
 			db.collection('users').findOne({nick:username},function(err, doc){
+                if(!doc){
+                    done(new errors.ForbiddenError("The user is not exists."));
+                    return;
+                }
                 if(doc.password === password) done(null,{id:doc._id,nick:doc.nick});
                 else done(new errors.ForbiddenError());
 			})
