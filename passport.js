@@ -1,8 +1,9 @@
 var passport = require("passport"),
 	FacebookStrategy = require('passport-facebook').Strategy,
 	LocalStrategy = require('passport-local').Strategy,
-	BearerStrategy = require('passport-http-bearer').Strategy
-	jwt = require('jwt-simple');
+	BearerStrategy = require('passport-http-bearer').Strategy,
+	jwt = require('jwt-simple'),
+    errors = require('http-custom-errors');
 	
 module.exports =function(app,db){
 
@@ -40,7 +41,8 @@ module.exports =function(app,db){
 		},
 		function(username, password, done) {
 			db.collection('users').findOne({nick:username},function(err, doc){
-				done(null,{id:doc._id,nick:doc.nick})
+                if(doc.password === password) done(null,{id:doc._id,nick:doc.nick});
+                else done(new errors.ForbiddenError());
 			})
 		}
 	));
