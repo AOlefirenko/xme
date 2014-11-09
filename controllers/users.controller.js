@@ -17,3 +17,16 @@ exports.checkUser = function(req, res,next) {
         res.send(!!doc);
     });
 }
+
+exports.patch = function(req, res,next) {
+    var query = {_id:new ObjectId(req.user.id)};
+    var update = {$set:req.body};
+
+    req.db.collection('users').update(query,update,function(err,doc){
+        if(err) {
+            next(errors.InternalServerError(err.message));
+            return;
+        }
+        res.status(204).send();
+    });
+}
