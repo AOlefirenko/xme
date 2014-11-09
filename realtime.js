@@ -21,7 +21,13 @@ wss.on('connection', function(ws) {
                 data = JSON.parse(message);
                 data.from = nick
                 ws.send("sending message from "+nick);
-                if(activeUsers[nick]) activeUsers[nick].send(data);
+
+                if(activeUsers[data.to]) {
+
+                    ws.send("sending message to "+nick);
+                    activeUsers[nick].send(data);
+
+                }
                 //save to db
             }
             catch(e){
