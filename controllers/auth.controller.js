@@ -10,7 +10,7 @@ exports.login = function(req, res,next) {
             user.password = undefined;
             user.salt = undefined;
             var token = jwt.encode({id:user.id,nick:user.nick}, "xxx");
-            return res.send(token);
+            return res.send({token:token});
         }
     })(req, res, next);
 }
@@ -27,7 +27,7 @@ exports.register = function(req, res,next) {
                 user.password = undefined;
                 user.salt = undefined;
                 var token = jwt.encode({id:user.id,nick:user.nick}, "xxx");
-                return res.send(token);
+                return res.send({token:token});
             }
 			
         })(req, res, next);
