@@ -1,7 +1,8 @@
 var https = require('https'),
     async = require('async'),
     ObjectId = require("mongodb").ObjectID,
-    _ = require('lodash');
+    _ = require('lodash'),
+    errors = require('http-custom-errors');
 
 module.exports = function(db, id,token,contacts){
 
@@ -20,11 +21,13 @@ module.exports = function(db, id,token,contacts){
             });
         },
         function(result,callback){
+            if(!result.data) callback(new errors.InternalServerError("facebook friends is not received"))
             var ids = result.data.map(function(i){return i.id});
             console.log("fb friends",ids);
             db.collection('users').find({fbId:{$in:ids}}).toArray(callback);
         },
         function(result, callback){
+            if(!result) callback(new errors.InternalServerError("friends not found in db"))
             var ids = result.map(function(i){return i.nick});
             console.log("nicks",ids);
             console.log("my contacts",contacts);
