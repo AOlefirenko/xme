@@ -1,7 +1,5 @@
 var WebSocketServer = require('ws').Server;
 
-
-module.exports = function(app){
     var http = require('http');
     var server = http.createServer();
     server.listen(8001);
@@ -15,6 +13,6 @@ module.exports = function(app){
         ws.send("Hello!!!!!");
 
     });
-}
+
 
 

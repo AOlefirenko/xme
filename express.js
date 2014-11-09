@@ -21,7 +21,6 @@ console.log(require('./routes/core.routes'));
     require('./routes/contacts.routes')(app);
     require('./routes/users.routes')(app);
 
-    require('./realtime')(app);
 
 	app.listen(process.env.PORT);
 	
