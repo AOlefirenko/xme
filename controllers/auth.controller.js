@@ -1,6 +1,7 @@
 var passport = require('passport'),
     jwt = require('jwt-simple'),
-    syncFbFriends = require('./../modules/syncFbFriends');
+    syncFbFriends = require('./../modules/syncFbFriends'),
+    errors = require('http-custom-errors');
 
 exports.login = function(req, res,next) {
     passport.authenticate('local', { session: false  }, function(err, user, info) {
@@ -18,6 +19,11 @@ exports.login = function(req, res,next) {
 exports.register = function(req, res,next) {
     var newUser = req.body;
 	console.log("register",newUser);
+    if(!newUser.nick || !newUser.password|| !newUser.email) {
+        next(new errors.BadRequestError());
+        return;
+    }
+    newUser.nick = newUser.nick.toLowerCase();
     req.db.collection("users").insertOne(newUser, function(err,r){
 	console.log(arguments);
         passport.authenticate('local', { session: false  }, function(err, user, info) {
