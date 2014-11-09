@@ -10,8 +10,9 @@ exports.get = function(req, res,next) {
     console.log(id);
     req.db.collection('users').findOne({_id:new ObjectId(id)},function(err, doc){
         if(err) return next(errors.InternalServerError(err.message));
+        console.log(doc);
         console.log({nick:{$in:doc.contacts}});
-        req.db.collection('users').find({nick:{$in:doc.contacts}}).toArray(function(err,docs){
+        req.db.collection('users').find({nick:{$in:doc.contacts || []}}).toArray(function(err,docs){
             var contacts = docs.map(function(d){
                 return {id:d.id, pic: d.pic, nick: d.nick, firstName: d.firstName, lastName: d.lastName};
             });
