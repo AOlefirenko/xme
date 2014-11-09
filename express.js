@@ -21,6 +21,17 @@ console.log(require('./routes/core.routes'));
     require('./routes/contacts.routes')(app);
     require('./routes/users.routes')(app);
 
+    app.use(function (err, req, res, next) {
+        // If the error object doesn't exists
+        if (!err) return next();
+        // Error page
+        res.status(err.code).send(err.message);
+    });
+
+// Assume 404 since no middleware responded
+    app.use(function (req, res) {
+        res.status(404).send();
+    });
 
 	app.listen(process.env.PORT);
 	
