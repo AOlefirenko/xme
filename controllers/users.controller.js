@@ -31,9 +31,11 @@ exports.patch = function(req, res,next) {
 }
 exports.search = function(req, res,next) {
     if(!req.query.nick) res.status(400).send("Укажи nick в query params")
-    req.db.collection('users').find({nick:new RegExp(req.query.nick,'i')}).toArray(function(err, doc){
+    req.db.collection('users').find({nick:new RegExp(req.query.nick,'i')}).toArray(function(err, docs){
         if(err) return next(errors.InternalServerError(err.message));
-        console.log(doc);
-        res.send(!!doc);
+        var result = docs.map(function(d){
+            return {id:d.id, pic: d.pic, nick: d.nick, firstName: d.firstName, lastName: d.lastName};
+        });
+        res.send(result);
     });
 }
