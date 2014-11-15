@@ -20,20 +20,14 @@ exports.login = function(req, res,next) {
 }
 
 exports.logout = function(req, res,next) {
+
     if(req.user.provider=='facebook')
     {
-        async.waterfall([
-            function(callback) {
-                var id = new ObjectId(req.user.id);//
-                req.db.collection('users').findOne({_id: id}, callback);
-            },
-            function(result,callback){
-                var url = "https://www.facebook.com/logout.php?next=http%3A%2F%2Fxme.cloudapp.net%2F&access_token="+doc.providerData.accessToken;
-                https.get(url,callback);
-            }
-        ],function(){
-            res.send();
-        })
+        var id = new ObjectId(req.user.id);
+        req.db.collection('users').findOne({_id: id}, function(err,doc){
+            var url = "https://www.facebook.com/logout.php?next=http%3A%2F%2Fxme.cloudapp.net%2F&access_token="+doc.providerData.accessToken;
+            res.redirect(url);
+        });
     }
     else{
         res.send();
