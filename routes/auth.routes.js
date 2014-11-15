@@ -5,7 +5,7 @@ var passport = require('passport'),
 module.exports  = function(app){
 
     app.route('/auth/login').post(controller.login);
-    app.route('/auth/logout').get(controller.logout);
+    app.route('/auth/logout').get(passport.authenticate('bearer', { session: false }), controller.logout);
     app.route('/auth/register').post(controller.register);
 
     app.route('/auth/facebook').get(passport.authenticate('facebook', {scope: ['email'], session: false }));
