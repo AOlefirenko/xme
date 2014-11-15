@@ -20,10 +20,11 @@ exports.login = function(req, res,next) {
 }
 
 exports.logout = function(req, res,next) {
+    var data = jwt.decode(req.query.accessToken);
 
-    if(req.user.provider=='facebook')
+    if(data.provider=='facebook')
     {
-        var id = new ObjectId(req.user.id);
+        var id = new ObjectId(data.id);
         req.db.collection('users').findOne({_id: id}, function(err,doc){
             var url = "https://www.facebook.com/logout.php?next=http%3A%2F%2Fxme.cloudapp.net%2F&access_token="+doc.providerData.accessToken;
             res.redirect(url);
