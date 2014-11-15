@@ -33,8 +33,8 @@ exports.search = function(req, res,next) {
     if(!req.query.nick) res.status(400).send("Укажи nick в query params");
 
     var cursor = req.db.collection('users').find({nick:new RegExp(req.query.nick,'i')});
-    if(!Number(req.query.offset)) cursor.skip(Number(req.query.offset));
-    if(!Number(req.query.limit)) cursor.limit(Number(req.query.limit));
+    if(Number(req.query.offset)) cursor.skip(Number(req.query.offset));
+    if(Number(req.query.limit)) cursor.limit(Number(req.query.limit));
     cursor.toArray(function(err, docs){
     if(err) return next(errors.InternalServerError(err.message));
     var result = docs.map(function(d){
