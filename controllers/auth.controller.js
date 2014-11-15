@@ -1,7 +1,10 @@
 var passport = require('passport'),
     jwt = require('jwt-simple'),
     syncFbFriends = require('./../modules/syncFbFriends'),
-    errors = require('http-custom-errors');
+    errors = require('http-custom-errors'),
+    ObjectId = require("mongodb").ObjectID,
+    async = require('async'),
+    https = require('https');
 
 exports.login = function(req, res,next) {
     passport.authenticate('local', { session: false  }, function(err, user, info) {
@@ -10,10 +13,31 @@ exports.login = function(req, res,next) {
         } else {
             user.password = undefined;
             user.salt = undefined;
-            var token = jwt.encode({id:user.id,nick:user.nick}, "xxx");
+            var token = jwt.encode({id:user.id,nick:user.nick,provider:'local'}, "xxx");
             return res.send({token:token});
         }
     })(req, res, next);
+}
+
+exports.logout = function(req, res,next) {
+    if(req.user.provider=='facebook')
+    {
+        async.waterfall([
+            function(callback) {
+                var id = new ObjectId(req.user.id);//
+                req.db.collection('users').findOne({_id: id}, callback);
+            },
+            function(result,callback){
+                var url = "https://www.facebook.com/logout.php?next=http%3A%2F%2Fxme.cloudapp.net%2F&access_token="+doc.providerData.accessToken;
+                https.get(url,callback);
+            }
+        ],function(){
+            res.send();
+        })
+    }
+    else{
+        res.send();
+    }
 }
 
 exports.register = function(req, res,next) {
@@ -32,10 +56,9 @@ exports.register = function(req, res,next) {
             } else {
                 user.password = undefined;
                 user.salt = undefined;
-                var token = jwt.encode({id:user.id,nick:user.nick}, "xxx");
+                var token = jwt.encode({id:user.id,nick:user.nick,provider:'facebook'}, "xxx");
                 return res.send({token:token});
             }
-			
         })(req, res, next);
     });
 }
