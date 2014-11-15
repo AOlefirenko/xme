@@ -50,7 +50,7 @@ exports.register = function(req, res,next) {
             } else {
                 user.password = undefined;
                 user.salt = undefined;
-                var token = jwt.encode({id:user.id,nick:user.nick,provider:'facebook'}, "xxx");
+                var token = jwt.encode({id:user.id,nick:user.nick,provider:'local'}, "xxx");
                 return res.send({token:token});
             }
         })(req, res, next);
@@ -69,7 +69,7 @@ exports.oauthCallback = function(strategy) {
                     var id;
                     if(r.lastErrorObject.updatedExisting)  id=r.value._id;
                     else id = r.lastErrorObject.upserted
-                    var token = jwt.encode({id:id,nick:user.nick}, "xxx");
+                    var token = jwt.encode({id:id,nick:user.nick,provider:'facebook'}, "xxx");
                     res.send(token);
                     console.log(r.value ,r.value.contacts);
                     var contacts = (r.value && r.value.contacts)|| [];
