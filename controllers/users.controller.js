@@ -29,3 +29,11 @@ exports.patch = function(req, res,next) {
         res.status(204).send();
     });
 }
+exports.search = function(req, res,next) {
+    if(!req.query.nick) res.status(400).send("Укажи nick в query params")
+    req.db.collection('users').find({nick:new RegExp(req.query.nick,'i')}).toArray(function(err, doc){
+        if(err) return next(errors.InternalServerError(err.message));
+        console.log(doc);
+        res.send(!!doc);
+    });
+}
