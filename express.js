@@ -20,6 +20,7 @@ console.log(require('./routes/core.routes'));
     require('./routes/auth.routes')(app);
     require('./routes/contacts.routes')(app);
     require('./routes/users.routes')(app);
+    require('./routes/sessions.routes')(app);
 
     app.use(function (err, req, res, next) {
         // If the error object doesn't exists
