@@ -26,6 +26,6 @@ exports.addContact = function(req,res,next){
     var id = new ObjectId(req.user.id);
     req.db.collection('users').update({_id:id},{$push:{contacts:req.params.username}},function(err,res){
         if(err) return next(errors.InternalServerError(err.message));
-        res.status(204).send()
+        res.send()
     });
 }
