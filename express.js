@@ -1,7 +1,7 @@
 var express = require("express"),
 	bodyParser = require('body-parser'),
-	initPassport = require("./passport");
-
+	initPassport = require("./passport"),
+path = require('path');
 module.exports =function(db){
 	var app = express();
 	
