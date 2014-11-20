@@ -8,7 +8,7 @@ exports.createSession = function(req, res) {
     req.db.collection('sessions').insert(doc,function(err, result){
         if(err) return next(errors.InternalServerError(err.message));
         req.db.collection('users').update({_id:doc},{$addToSet:{sessions:doc._id}},function(err, result){
-            res.send(doc._id);
+            res.send({id:doc._id});
         });
     });
 }
