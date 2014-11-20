@@ -14,7 +14,7 @@ module.exports =function(db){
 
 	app.use(bodyParser.urlencoded({extended: true}));
 	app.use(bodyParser.json());
-
+	app.use(express.static(path.resolve('./public')));
 console.log(require('./routes/core.routes'));
     require('./routes/core.routes')(app);
     require('./routes/auth.routes')(app);
@@ -33,7 +33,7 @@ console.log(require('./routes/core.routes'));
     app.use(function (req, res) {
         res.status(404).send();
     });
-
+    
 	app.listen(process.env.PORT);
 	
 };
