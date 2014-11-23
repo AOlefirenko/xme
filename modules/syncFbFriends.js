@@ -40,7 +40,7 @@ module.exports = function(db, id,token,contacts){
                 }
             });
             if(changed)
-            db.collection('users').update({_id:new ObjectId(id)},{$set:{contacts:contacts}});
+            db.collection('users').update({_id:new ObjectId(id)},{$addToset:{contacts:contacts}});
         }
     ])
 }
