@@ -23,3 +23,13 @@ exports.deleteSession = function(req, res) {
         });
     });
 }
+exports.verifySession = function(req, res) {
+    var id = new ObjectId(req.user.id);
+    var sessionId = new ObjectId(req.params.id);
+    var doc = {userId:id,_id: sessionId};
+    req.db.collection('sessions').findOne(doc,function(err, doc){
+        if(err) return next(errors.InternalServerError(err.message));
+        var diff = new Date()-doc.lastDate/60000;
+        res.send({isLive:diff<10})
+    });
+}
