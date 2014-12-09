@@ -11,7 +11,7 @@ module.exports = function(data,callback){
     var gisUrl = 'http://catalog.api.2gis.ru/search?what={n}&point={p}&radius=40000&sort=distance&version=1.3&pagesize={c}&key={k}'
         .replace('{c}',resultsCount)
         .replace('{p}',point)
-        .replace('{n}',data.nick)
+        .replace('{n}',data.name)
         .replace('{k}',key);
     var processResult = function(data){
         var obj = JSON.parse(data);
