@@ -7,7 +7,7 @@ module.exports  = function(app){
 
         var data = {
             name:req.query.name,
-            geo:{lon:geo[0],lat:geo[1]}
+            geo:{lon:geo[1],lat:geo[0]}
         };
 
         gis(data,function(err,data){
