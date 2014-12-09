@@ -8,7 +8,7 @@ module.exports = function(data,callback){
     var key = 'ruwlxp0922';
     var resultsCount = 5;
     var point = data.geo.lon+','+data.geo.lat;
-    var gisUrl = 'http://catalog.api.2gis.ru/search?what={n}&point={p}&sort=distance&version=1.3&pagesize={c}&key={k}'
+    var gisUrl = 'http://catalog.api.2gis.ru/search?what={n}&point={p}&radius=40000&sort=distance&version=1.3&pagesize={c}&key={k}'
         .replace('{c}',resultsCount)
         .replace('{p}',point)
         .replace('{n}',data.nick)

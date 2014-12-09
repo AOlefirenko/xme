@@ -4,7 +4,7 @@ var ObjectId = require("mongodb").ObjectID,
 
 exports.createSession = function(req, res) {
     var id = new ObjectId(req.user.id);
-    var doc = {userId:id};
+    var doc = {userId:id,lastDate:new Date()};
     req.db.collection('sessions').insert(doc,function(err, result){
         if(err) return next(errors.InternalServerError(err.message));
         req.db.collection('users').update({_id:id},{$addToSet:{sessions:doc._id}},function(err, result){

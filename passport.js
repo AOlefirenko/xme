@@ -29,7 +29,8 @@ module.exports =function(app,db){
 				fbId:providerData.id,
 				provider: 'facebook',
 				providerIdentifierField: 'id',
-				providerData: providerData
+				providerData: providerData,
+                type:'user'
 			};
             providerUserProfile.nick = providerUserProfile.nick.replace(/ /g,'').toLowerCase();
 			done(null,providerUserProfile);

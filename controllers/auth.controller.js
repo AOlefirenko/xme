@@ -51,6 +51,7 @@ exports.register = function(req, res,next) {
 	newUser.pic = 'http://xme.cloudapp.net/img/placeholder.jpg';
 	newUser.firstName='';
 	newUser.lastName='';
+    newUser.type='user';
     req.db.collection("users").insertOne(newUser, function(err,r){
 	console.log(arguments);
         passport.authenticate('local', { session: false  }, function(err, user, info) {
