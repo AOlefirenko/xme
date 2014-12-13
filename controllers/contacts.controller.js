@@ -17,7 +17,7 @@ exports.get = function(req, res,next) {
                 return {id:d.id, pic: d.pic, nick: d.nick, firstName: d.firstName, lastName: d.lastName,type: d.type};
             });
 			if(doc.gisSearches) _.each(doc.gisSearches,function(val){
-					contact.push({nick:val,pic:'http://xme.cloudapp.net/img/gis-placeholder.jpg'})
+					contacts.push({nick:val,pic:'http://xme.cloudapp.net/img/gis-placeholder.jpg'})
 				});
             res.send(contacts);
         })
