@@ -17,7 +17,7 @@ exports.get = function(req, res,next) {
                 return {id:d.id, pic: d.pic, nick: d.nick, firstName: d.firstName, lastName: d.lastName,type: d.type};
             });
 			if(doc.gisSearches) _.each(doc.gisSearches,function(val){
-					contacts.push({nick:val,pic:'http://xme.cloudapp.net/img/gis-placeholder.jpg'})
+					contacts.push({nick:val,pic:'http://xme.cloudapp.net/img/gis-placeholder.jpg',type:'2gis'})
 				});
             res.send(contacts);
         })
@@ -26,16 +26,29 @@ exports.get = function(req, res,next) {
 
 exports.addContact = function(req,res,next){
     var id = new ObjectId(req.user.id);
-	if(req.query.type=='2gis'){
-		req.db.collection('users').update({_id:id},{$addToSet:{gisSearches:req.params.username}},function(err,result){
-			if(err) return next(errors.InternalServerError(err.message));
-			res.status(204).send()
-		});
-		return;
-	}
     req.db.collection('users').update({_id:id},{$addToSet:{contacts:req.params.username}},function(err,result){
         if(err) return next(errors.InternalServerError(err.message));
         res.status(204).send()
     });
 }
 
+
+exports.lockContact = function(req,res,next){
+    var id = new ObjectId(req.user.id);
+    req.db.collection('users').update({_id: id},{$pull:{blackList:req.params.username}},function(err,result){
+        if(err) return next(errors.InternalServerError(err.message));
+        res.status(204).send();
+    });
+}
+
+exports.unlockContact = function(req,res,next){
+    var id = new ObjectId(req.user.id);
+    req.db.collection('users').update({_id: id},{$pull:{blackList:req.params.username}},function(err,result){
+        if(err) return next(errors.InternalServerError(err.message));
+        res.status(204).send();
+    });
+
+}
+exports.createAppeal = function(req,res,next){
+    res.send();
+}
