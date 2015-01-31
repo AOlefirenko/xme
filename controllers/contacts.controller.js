@@ -11,14 +11,13 @@ exports.get = function(req, res,next) {
     console.log(id);
     req.db.collection('users').findOne({_id:new ObjectId(id)},function(err, doc){
         if(err) return next(errors.InternalServerError(err.message));
-        
+
         req.db.collection('users').find({nick:{$in:doc.contacts || []}}).toArray(function(err,docs){
             var contacts = docs.map(function(d){
-                return {id:d.id, pic: d.pic, nick: d.nick, firstName: d.firstName, lastName: d.lastName,type: d.type};
+                var res= _.indexOf(doc.blackList, d.nick);
+                return {id:d.id, pic: d.pic, nick: d.nick, firstName: d.firstName, lastName: d.lastName,type: d.type,blocked:res>=0};
             });
-			if(doc.gisSearches) _.each(doc.gisSearches,function(val){
-					contacts.push({nick:val,pic:'http://xme.cloudapp.net/img/gis-placeholder.jpg',type:'2gis'})
-				});
+
             res.send(contacts);
         })
     });
