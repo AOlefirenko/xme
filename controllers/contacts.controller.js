@@ -35,7 +35,7 @@ exports.addContact = function(req,res,next){
 
 exports.lockContact = function(req,res,next){
     var id = new ObjectId(req.user.id);
-    req.db.collection('users').update({_id: id},{$pull:{blackList:req.params.username}},function(err,result){
+    req.db.collection('users').update({_id: id},{$addToSet:{blackList:req.params.username}},function(err,result){
         if(err) return next(errors.InternalServerError(err.message));
         res.status(204).send();
     });
@@ -50,5 +50,5 @@ exports.unlockContact = function(req,res,next){
 
 }
 exports.createAppeal = function(req,res,next){
-    res.send();
+    res.status(204).send();
 }
